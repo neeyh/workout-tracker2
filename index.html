@@ -19,6 +19,9 @@
       .dot { width:7px; height:7px; border-radius:50%; background:var(--orange); display:inline-block; }
       .date { white-space:nowrap; color:var(--muted); font:500 12px "DM Mono",monospace; line-height:1.6; }
       .date strong { color:var(--ink); font-size:13px; margin-right:6px; }
+      .header-meta { display:flex; align-items:center; gap:8px; }
+      .refresh { width:28px; height:28px; border:1px solid var(--line); border-radius:7px; background:var(--card); color:var(--ink); padding:0; font:500 19px/1 "DM Mono",monospace; transition:.15s; }
+      .refresh:hover { background:var(--lime); border-color:var(--lime); transform:rotate(20deg); }
       .tabs { display:flex; align-items:center; gap:7px; overflow-x:auto; padding:2px 0 12px; margin-bottom:10px; scrollbar-width:none; }
       .tabs::-webkit-scrollbar { display:none; }
       .tab { display:flex; align-items:center; gap:2px; flex:0 0 auto; border:1px solid hsl(var(--tab-hue) 45% 72%); border-radius:9px; background:hsl(var(--tab-hue) 65% 88%); padding:3px; }
@@ -74,7 +77,7 @@
   <body>
     <main class="app">
       <header>
-        <div><div class="eyebrow"><i class="dot"></i>Training log</div><div class="date" id="date"></div></div>
+        <div><div class="eyebrow"><i class="dot"></i>Training log</div><div class="header-meta"><div class="date" id="date"></div><button class="refresh" id="refresh-page" type="button" aria-label="Refresh tracker" data-tooltip="Refresh tracker">↻</button></div></div>
       </header>
       <nav class="tabs" id="tabs" aria-label="Workout days"></nav>
       <div class="section-title"><h2>Workout</h2><span id="exercise-label">0 exercises</span></div>
@@ -98,6 +101,7 @@
       const tabs = document.querySelector('#tabs');
       const format = new Intl.DateTimeFormat('en-US', { weekday:'long', month:'short', day:'numeric' });
       document.querySelector('#date').innerHTML = `<strong>${format.format(new Date())}</strong>${new Date().getFullYear()}`;
+      document.querySelector('#refresh-page').addEventListener('click', () => window.location.reload());
       const icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2m-9 0 1 14h8l1-14"/></svg>';
       const currentSession = () => tracker.sessions.find(session => session.id === tracker.activeId);
       const workouts = () => currentSession().workouts;
