@@ -4,12 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#f6f3ee" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="Rep" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png" />
-    <link rel="manifest" href="./manifest.webmanifest" />
     <title>Rep — Workout tracker</title>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,600&display=swap');
@@ -20,21 +14,24 @@
       button, input { font:inherit; }
       button { cursor:pointer; }
       .app { width:min(100%, 900px); margin:0 auto; padding:32px 24px 48px; }
-      header { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:20px; }
+      header { margin-bottom:20px; }
       .eyebrow { display:flex; align-items:center; gap:8px; color:var(--muted); font:500 11px "DM Mono",monospace; letter-spacing:.08em; text-transform:uppercase; margin-bottom:7px; }
       .dot { width:7px; height:7px; border-radius:50%; background:var(--orange); display:inline-block; }
-      .date { text-align:right; color:var(--muted); font:500 12px "DM Mono",monospace; line-height:1.6; padding-top:3px; }
-      .date strong { display:block; color:var(--ink); font-size:13px; }
+      .date { white-space:nowrap; color:var(--muted); font:500 12px "DM Mono",monospace; line-height:1.6; }
+      .date strong { color:var(--ink); font-size:13px; margin-right:6px; }
       .tabs { display:flex; align-items:center; gap:7px; overflow-x:auto; padding:2px 0 12px; margin-bottom:10px; scrollbar-width:none; }
       .tabs::-webkit-scrollbar { display:none; }
-      .tab { display:flex; align-items:center; gap:2px; flex:0 0 auto; border:1px solid hsl(var(--tab-hue) 45% 72%); border-radius:9px; background:hsl(var(--tab-hue) 65% 88%); padding:3px 3px 3px 10px; }
+      .tab { display:flex; align-items:center; gap:2px; flex:0 0 auto; border:1px solid hsl(var(--tab-hue) 45% 72%); border-radius:9px; background:hsl(var(--tab-hue) 65% 88%); padding:3px; }
       .tab.is-active { background:hsl(var(--tab-hue) 62% 78%); border-color:var(--ink); box-shadow:inset 0 0 0 1px var(--ink); }
-      .tab-name { width:84px; border:0; outline:0; background:transparent; color:var(--ink); font:500 11px "DM Mono",monospace; padding:5px 0; }
-      .tab.is-active .tab-name { color:var(--ink); }
+      .tab-select, .tab-name { width:100px; min-height:29px; border:0; outline:0; background:transparent; color:var(--ink); font:500 11px "DM Mono",monospace; padding:5px 7px; text-align:left; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+      .tab-select { cursor:pointer; }
+      .tab-select:hover { background:rgba(255,255,255,.35); border-radius:6px; }
       .tab-name:focus { box-shadow:0 1px 0 var(--orange); }
-      .tab-close, .add-tab { border:0; border-radius:6px; background:transparent; color:var(--muted); width:25px; height:25px; padding:0; line-height:1; font-size:17px; }
+      .tab-close, .tab-edit, .add-tab { border:0; border-radius:6px; background:transparent; color:var(--muted); width:25px; height:25px; padding:0; line-height:1; font-size:17px; }
       .tab.is-active .tab-close { color:var(--ink); }
+      .tab.is-active .tab-edit { color:var(--ink); }
       .tab-close:hover { color:var(--orange); background:#fff0ea; }
+      .tab-edit:hover { color:var(--ink); background:rgba(255,255,255,.35); }
       .add-tab { flex:0 0 auto; border:1px dashed #b8c0b4; font-size:19px; }
       .add-tab:hover { background:var(--lime); border-style:solid; border-color:var(--lime); color:var(--ink); }
       .section-title { display:flex; align-items:baseline; justify-content:space-between; margin:0 0 13px; }
@@ -71,14 +68,13 @@
       .empty { border:1px dashed #b8c0b4; border-radius:14px; padding:36px 20px; text-align:center; color:var(--muted); font-size:14px; }
       .empty strong { display:block; font:600 21px "Fraunces",serif; color:var(--ink); margin-bottom:6px; }
       .footer { color:var(--muted); text-align:center; font:10px "DM Mono",monospace; margin-top:20px; letter-spacing:.03em; }
-      @media (max-width:520px) { .app { padding:23px 14px 36px; } header { margin-bottom:18px; } .tabs { margin-bottom:6px; } .tab-name { width:76px; } .workout-main { padding:15px 14px 12px; } .controls { grid-template-columns:1fr; } .control { padding:11px 7px 11px 14px; border-right:0; border-bottom:1px solid var(--line); display:grid; grid-template-columns:65px 1fr; align-items:center; gap:12px; } .control:last-child { border-bottom:0; } .control-label { margin:0; display:block; } .stepper { grid-template-columns:1fr 48px; grid-template-rows:25px 25px; gap:3px 4px; } .stepper button { width:48px; height:25px; font-size:19px; } }
+      @media (max-width:520px) { .app { padding:23px 14px 36px; } header { margin-bottom:18px; } .tabs { margin-bottom:6px; } .tab-select, .tab-name { width:96px; } .workout-main { padding:15px 14px 12px; } .controls { grid-template-columns:1fr; } .control { padding:11px 7px 11px 14px; border-right:0; border-bottom:1px solid var(--line); display:grid; grid-template-columns:65px 1fr; align-items:center; gap:12px; } .control:last-child { border-bottom:0; } .control-label { margin:0; display:block; } .stepper { grid-template-columns:1fr 48px; grid-template-rows:25px 25px; gap:3px 4px; } .stepper button { width:48px; height:25px; font-size:19px; } }
     </style>
   </head>
   <body>
     <main class="app">
       <header>
-        <div><div class="eyebrow"><i class="dot"></i>Training log</div></div>
-        <div class="date" id="date"></div>
+        <div><div class="eyebrow"><i class="dot"></i>Training log</div><div class="date" id="date"></div></div>
       </header>
       <nav class="tabs" id="tabs" aria-label="Workout days"></nav>
       <div class="section-title"><h2>Workout</h2><span id="exercise-label">0 exercises</span></div>
@@ -109,7 +105,7 @@
       const value = (n) => Math.max(0, Number(n) || 0);
       const escapeHtml = (text) => String(text).replace(/[&<>'"]/g, char => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;' })[char]);
       function renderTabs() {
-        tabs.innerHTML = tracker.sessions.map((session, index) => `<div class="tab ${session.id === tracker.activeId ? 'is-active' : ''}" style="--tab-hue:${(index * 53 + 75) % 360}" data-tab-id="${session.id}"><input class="tab-name" aria-label="Day name" value="${escapeHtml(session.name)}"><button class="tab-close" type="button" aria-label="Delete ${escapeHtml(session.name)}" data-delete-tab>×</button></div>`).join('') + '<button class="add-tab" id="add-tab" type="button" aria-label="Add workout day">+</button>';
+        tabs.innerHTML = tracker.sessions.map((session, index) => `<div class="tab ${session.id === tracker.activeId ? 'is-active' : ''}" style="--tab-hue:${(index * 53 + 75) % 360}" data-tab-id="${session.id}"><button class="tab-select" type="button" aria-label="Open ${escapeHtml(session.name)}" data-select-tab>${escapeHtml(session.name)}</button><button class="tab-edit" type="button" aria-label="Edit ${escapeHtml(session.name)}" data-edit-tab>✎</button><button class="tab-close" type="button" aria-label="Delete ${escapeHtml(session.name)}" data-delete-tab>×</button></div>`).join('') + '<button class="add-tab" id="add-tab" type="button" aria-label="Add workout day">+</button>';
       }
       function render() {
         const activeWorkouts = workouts();
@@ -147,7 +143,7 @@
           const id = crypto.randomUUID();
           tracker.sessions.push({ id, name:'New day', workouts:[] });
           tracker.activeId = id; save(); render();
-          const input = tabs.querySelector(`[data-tab-id="${id}"] .tab-name`); input?.focus(); input?.select();
+          tabs.querySelector(`[data-tab-id="${id}"] [data-select-tab]`)?.focus();
           return;
         }
         const tab = e.target.closest('[data-tab-id]'); if (!tab) return;
@@ -160,13 +156,21 @@
           if (tracker.activeId === id) tracker.activeId = tracker.sessions[0].id;
           save(); render(); return;
         }
-        if (!e.target.matches('.tab-name')) { tracker.activeId = id; save(); render(); }
+        if (e.target.closest('[data-edit-tab]')) {
+          const session = tracker.sessions.find(item => item.id === id);
+          const input = document.createElement('input');
+          input.className = 'tab-name'; input.setAttribute('aria-label', 'Day name'); input.value = session.name;
+          tab.querySelector('[data-select-tab]').replaceWith(input);
+          input.focus(); input.select(); return;
+        }
+        if (e.target.closest('[data-select-tab]')) { tracker.activeId = id; save(); render(); }
       });
-      tabs.addEventListener('change', e => {
+      tabs.addEventListener('focusout', e => {
         if (!e.target.matches('.tab-name')) return;
         const session = tracker.sessions.find(item => item.id === e.target.closest('[data-tab-id]').dataset.tabId);
         session.name = e.target.value.trim() || 'Untitled day'; save(); render();
       });
+      tabs.addEventListener('keydown', e => { if (e.target.matches('.tab-name') && e.key === 'Enter') e.target.blur(); });
       document.querySelector('#add-workout').addEventListener('click', () => { workouts().push({ id:crypto.randomUUID(), name:'New exercise', weight:0, reps:10, sets:3 }); save(); render(); const input = list.lastElementChild?.querySelector('.workout-name'); input?.focus(); input?.select(); });
       render();
     </script>
