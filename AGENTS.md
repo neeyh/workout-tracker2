@@ -8,7 +8,7 @@
 - Use stable per-day/exercise colors. No large title, session summary, or volume summary unless requested.
 - Day tab switches days; pencil alone edits its name; delete confirms. Keep inactive tabs compact.
 - Exercises support add, edit, undoable delete, and persistent reorder. Drag handle uses a ghost card, insertion marker, edge scrolling, and keyboard arrows.
-- Preserve focus during quick numeric updates. Weights are kg; reps/sets are nonnegative integers.
+- Preserve focus during quick numeric updates; center numeric values. Weights are kg; reps/sets are nonnegative integers.
 - Show a clear-name × button while an exercise name field is focused.
 - Store sessions in `rep-sessions`; preserve data and support legacy `rep-workouts`. Escape user text.
 - New users: `Day 1`–`Day 3`; Day 1 has Romanian Deadlift, Bulgarian Split Squats, Nordic Hamstring Curls, and Leg Press at 0 kg × 10 × 3.
