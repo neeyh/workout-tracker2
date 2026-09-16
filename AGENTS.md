@@ -4,6 +4,7 @@
 - Single-file vanilla app: `index.html`; optimize for desktop and iPhone Web Clips (393px/320px).
 - Keep cards compact: Weight (kg), Reps, Sets visible together; + above − on the right; readable values and usable touch targets.
 - Header is one line: `Training Log` plus local date `TUE, 15 SEP 2026` in matching typography.
+- Keep iOS Web Clip metadata and touch-icon PNG assets current when branding changes.
 - Use stable per-day/exercise colors. No large title, session summary, or volume summary unless requested.
 - Day tab switches days; pencil alone edits its name; delete confirms. Keep inactive tabs compact.
 - Exercises support add, edit, undoable delete, and persistent reorder. Drag handle uses a ghost card, insertion marker, edge scrolling, and keyboard arrows.
