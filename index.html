@@ -92,6 +92,8 @@
       button:focus-visible, input:focus-visible { outline:2px solid var(--ink); outline-offset:2px; }
       .stepper input { font-weight:500; font-size:18px; font-variant-numeric:tabular-nums; }
       .drop-marker { position:fixed; z-index:10; height:3px; border-radius:3px; background:var(--ink); pointer-events:none; }
+      .drag-ghost { position:fixed; z-index:20; pointer-events:none; margin:0; opacity:.92; box-shadow:0 16px 34px rgba(29,43,38,.22); transform:rotate(1.5deg); transition:none; }
+      .drag-ghost .workout-name, .drag-ghost button, .drag-ghost input { pointer-events:none; }
       body.is-reordering { user-select:none; cursor:grabbing; }
       .workout.is-dragging { transform:none; }
       .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
@@ -274,6 +276,24 @@
         dropMarker.style.width = bounds.width + 'px';
         dropMarker.style.top = (before ? rect.top - 4 : rect.bottom + 2) + 'px';
       }
+      function createGhost(state) {
+        const rect = state.card.getBoundingClientRect();
+        const ghost = state.card.cloneNode(true);
+        ghost.classList.remove('is-dragging');
+        ghost.classList.add('drag-ghost');
+        ghost.removeAttribute('draggable');
+        ghost.style.width = `${rect.width}px`;
+        state.ghost = ghost;
+        state.offsetX = state.x - rect.left;
+        state.offsetY = state.y - rect.top;
+        document.body.append(ghost);
+        updateGhost(state);
+      }
+      function updateGhost(state) {
+        if (!state.ghost) return;
+        state.ghost.style.left = `${state.x - state.offsetX}px`;
+        state.ghost.style.top = `${state.y - state.offsetY}px`;
+      }
       function dragTick() {
         if (!drag?.active) return;
         const edge = 64;
@@ -290,6 +310,7 @@
         drag = null;
         cancelAnimationFrame(dragFrame);
         dropMarker.hidden = true;
+        state.ghost?.remove();
         state.card.classList.remove('is-dragging');
         document.body.classList.remove('is-reordering');
         if (state.handle.hasPointerCapture(state.pointerId)) state.handle.releasePointerCapture(state.pointerId);
@@ -301,26 +322,27 @@
         if (!handle || e.button !== 0 || drag) return;
         const card = handle.closest('.workout');
         drag = { id:card.dataset.id, card, handle, pointerId:e.pointerId, startX:e.clientX,
-          startY:e.clientY, y:e.clientY, active:false, beforeId:null };
+          startY:e.clientY, x:e.clientX, y:e.clientY, active:false, beforeId:null };
         handle.setPointerCapture(e.pointerId);
         handle.focus({ preventScroll:true });
         e.preventDefault();
       });
       list.addEventListener('pointermove', e => {
         if (!drag || e.pointerId !== drag.pointerId) return;
-        drag.y = e.clientY;
+        drag.x = e.clientX; drag.y = e.clientY;
         if (!drag.active && Math.hypot(e.clientX - drag.startX, e.clientY - drag.startY) > 5) {
           drag.active = true;
           drag.card.classList.add('is-dragging');
           document.body.classList.add('is-reordering');
+          createGhost(drag);
           dragTick();
         }
-        if (drag.active) updateDropPosition();
+        if (drag.active) { updateGhost(drag); updateDropPosition(); }
         e.preventDefault();
       });
       list.addEventListener('pointerup', e => {
         if (!drag || e.pointerId !== drag.pointerId) return;
-        drag.y = e.clientY;
+        drag.x = e.clientX; drag.y = e.clientY;
         updateDropPosition();
         finishDrag(true);
       });
