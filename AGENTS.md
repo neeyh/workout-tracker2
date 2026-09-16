@@ -9,7 +9,8 @@
 - Day tab switches days; pencil alone edits its name; delete confirms. Keep inactive tabs compact.
 - Exercises support add, edit, undoable delete, and persistent reorder. Drag handle uses a ghost card, insertion marker, edge scrolling, and keyboard arrows.
 - Preserve focus during quick numeric updates. Weights are kg; reps/sets are nonnegative integers.
+- Show a clear-name × button while an exercise name field is focused.
 - Store sessions in `rep-sessions`; preserve data and support legacy `rep-workouts`. Escape user text.
 - New users: `Day 1`–`Day 3`; Day 1 has Romanian Deadlift, Bulgarian Split Squats, Nordic Hamstring Curls, and Leg Press at 0 kg × 10 × 3.
 - Verify changed interactions with isolated data; never clear real localStorage. If visual testing is blocked, say so.
-- Publish to `neeyh/workout-tracker2` on `main`: fetch remote SHA, preserve unrelated changes, then verify the update.
+- Automatically publish every code change to `neeyh/workout-tracker2` on `main`: fetch remote SHA, preserve unrelated changes, then verify the update.

@@ -1,9 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Training Log">
   <rect width="512" height="512" rx="112" fill="#f6f3ee"/>
-  <rect x="92" y="180" width="56" height="152" rx="22" fill="#1d2b26"/>
-  <rect x="144" y="208" width="64" height="96" rx="20" fill="#1d2b26"/>
-  <rect x="192" y="238" width="128" height="36" rx="18" fill="#d5f24a"/>
-  <rect x="304" y="208" width="64" height="96" rx="20" fill="#1d2b26"/>
-  <rect x="364" y="180" width="56" height="152" rx="22" fill="#1d2b26"/>
-  <circle cx="256" cy="256" r="11" fill="#1d2b26"/>
+  <rect x="72" y="148" width="52" height="216" rx="25" fill="#1d2b26"/>
+  <rect x="118" y="176" width="48" height="160" rx="23" fill="#1d2b26"/>
+  <rect x="158" y="210" width="70" height="92" rx="22" fill="#1d2b26"/>
+  <rect x="160" y="232" width="192" height="48" rx="24" fill="#1d2b26"/>
+  <rect x="218" y="214" width="76" height="84" rx="22" fill="#d5f24a"/>
+  <rect x="230" y="230" width="52" height="52" rx="18" fill="#1d2b26"/>
+  <rect x="284" y="210" width="70" height="92" rx="22" fill="#1d2b26"/>
+  <rect x="346" y="176" width="48" height="160" rx="23" fill="#1d2b26"/>
+  <rect x="388" y="148" width="52" height="216" rx="25" fill="#1d2b26"/>
 </svg>
