@@ -2,7 +2,7 @@
 
 - Update this file for durable user preferences; replace outdated rules and avoid duplicates.
 - Single-file vanilla app: `index.html`; optimize for desktop and iPhone Web Clips (393px/320px).
-- Keep cards compact: Weight (kg), Reps, Sets visible together; + above − on the right; readable values and usable touch targets.
+- Keep cards compact: Weight (kg), Reps, Sets visible together; + above − on the right; readable values and usable touch targets. Keep generous card side gutters for scrolling and place the reorder handle left.
 - Header is one line: `Training Log` plus local date `TUE, 15 SEP 2026` in matching typography.
 - Keep iOS Web Clip metadata and touch-icon PNG assets current when branding changes.
 - Use stable per-day/exercise colors. No large title, session summary, or volume summary unless requested.
